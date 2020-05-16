@@ -28,6 +28,7 @@
 
 <body>
 <!--LEFTOFFHERE
+get the link constructor to work and add other page for player
 <!--Add form validation-->
 <!--deploy-->
 <!--move video up when render so clsoer to top-->
@@ -331,7 +332,7 @@
         $('.timeInput').each(function(index) {
             times += ($(this).val() + '&');
         });
-        let newUrl = "https://youtube-skipper.herokuapp.com/player/player.html?" + vidId + "?" + times + "beta";
+        let newUrl = "youtubemod/player?" + vidId + "?" + times + "beta";
         let outputRow = makeUrlRow();
         let urlSpace = $('#url-space');
         urlSpace.children().remove();
