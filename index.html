@@ -248,7 +248,6 @@ get the link constructor to work and add other page for player
     function copyCustomUrl() {
         let urlArea = document.getElementById('customUrl-input');
         urlArea.select();
-        urlArea.setSelectionRange(0, 99999); /*For mobile devices*/
         document.execCommand("copy");
         delete window.alert;
         alert("Your URL is copied to your clipboard!");
