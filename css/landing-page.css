@@ -41,6 +41,14 @@ header.masthead h1 {
   font-size: 2rem;
 }
 
+
+#logo-text{
+  color: #007BFF;
+  font-family: 'Dancing Script', serif;
+  font-size: 24pt;
+  font-weight: bold;
+}
+
 @media (min-width: 768px) {
   header.masthead {
     padding-top: 12rem;
