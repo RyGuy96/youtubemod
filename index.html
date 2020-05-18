@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!--LEFTOFFHERE Not working don't know why-->
 <!--https://www.youtube.com/watch?v=U03lLvhBzOw-->
 <head>
 
@@ -71,14 +71,14 @@ get the link constructor to work and add other page for player
                     </div>
                     <div id="editor-tools">
                         <div class = "form-row">
-                            <input type="range" name="timeSlider" id="timeSlider" class="form-control-range mb-2 col-12" value="0" min="0" max="100">
+                            <input type="range" name="timeSlider" id="timeSlider" class="form-control-range mb-2 col-12" value="0" min="0" max="1">
                         </div>
                         <div class="form-row orginal">
                             <div class="col-12 col-md-4 mb-2 mb-md-1">
-                                <input type="number" id="start-0" class="form-control form-control-lg timeInput" placeholder="First Start Time" min="0">
+                                <input type="text" id="start-0" class="form-control form-control-lg timeInput" placeholder="First Start Time" min="0">
                             </div>
                             <div class="col-12 col-md-4 mb-2 mb-md-1">
-                                <input type="number" id="end-0" class="form-control form-control-lg timeInput" placeholder="First End Time">
+                                <input type="text" id="end-0" class="form-control form-control-lg timeInput" placeholder="First End Time">
                             </div>
                             <div class="col-12 col-md-1 mb-1">
                                 <button type="button" id="addTimes-btn" class="btn btn-block btn-lg btn-primary">+</button>
@@ -156,6 +156,7 @@ get the link constructor to work and add other page for player
 
     loadPage();
 
+
     function loadPage(){
         $('#editor-tools').hide();
         addHeader();
@@ -174,7 +175,6 @@ get the link constructor to work and add other page for player
         $('#removeTimes-btn').click(function () {
             removeLastTime()
         });
-
         $('#logo-text').click(function () {
             resetPageSettings()
         });
@@ -182,14 +182,23 @@ get the link constructor to work and add other page for player
             addRow()
         });
         $('#constructUrl-btn').click(function () {
-            contructUrl()
+            $('#url-space').innerHTML = '';
+            contructUrl();
         });
         $('#timeSlider').click(function () {
-            sliderPop()
+            sliderPop();
+            timesValid();
         });
-        $("#timeSlider").dblclick(function () {
-            toggleState()
+        $('#timeSlider').dblclick(function () {
+            toggleState();
         });
+        $('#start-0').change(function () {
+            timesValid();
+        });
+        $('#end-0').change(function () {
+            timesValid();
+        });
+        setTimeValidationListeners();
     }
 
     // Reverts to initial single input page
@@ -229,11 +238,33 @@ get the link constructor to work and add other page for player
         }
     }
 
+    function onPlayerError(event) {
+        //This show dialog twice on fail, not sure why. Stop propagaiton couldn't work bc binds to button
+            switch (event.data) {
+                case 2:
+                    alert('Not a valid url');
+                    break;
+                case 5:
+                    alert('HTML5 player error - try a different browser');
+                    break;
+                case 100:
+                    alert('Could not find that video');
+                    break;
+                case 101:
+                    alert('Owner blocked video from playing on 3rd party sites');
+                    break;
+                case 150:
+                    alert('Owner blocked video from playing on 3rd party sites');
+                    break;
+                default:
+                    alert('Unkown error playing video');
+                    break
+            }
+    }
     // Set slider max val
     // See: https://stackoverflow.com/questions/15596753/how-do-i-get-video-durations-with-youtube-api-version-3
     function onPlayerReady(event) {
         event.target.playVideo();
-        console.log(player.getDuration());
         player.pauseVideo();
         let vidLength = player.getDuration();
         document.getElementById("timeSlider").max = vidLength - 2; //not sure why need -2 - maybe because gets time from tw seconds in
@@ -256,7 +287,8 @@ get the link constructor to work and add other page for player
     // Link slider to video time and time input field
     function sliderPop(){
         player.seekTo($('#timeSlider').val(), true);
-        $(prevSelectedInput).val($('#timeSlider').val());
+        // $(prevSelectedInput).val($('#timeSlider').val());
+        $(prevSelectedInput).val(toMins($('#timeSlider').val()));
     }
 
     // Pause/Play on double click of slider
@@ -280,6 +312,7 @@ get the link constructor to work and add other page for player
         player = new YT.Player('player', {
             videoId: vidId, //'M7lc1UVf-VE'
             events: {
+                onError: onPlayerError,
                 onReady: onPlayerReady
             }
         });
@@ -292,11 +325,11 @@ get the link constructor to work and add other page for player
         let endId = 'end-' + counter;
         htmlRow = '<div class="form-row">'
             + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
-            + '<input type="number" class="form-control form-control-lg timeInput" min="0" id="'
+            + '<input type="text" class="form-control form-control-lg timeInput" min="0" id="'
             + startId
             + '"></div>'
             + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
-            + '<input type="number" class="form-control form-control-lg timeInput" min="0" id="'
+            + '<input type="text" class="form-control form-control-lg timeInput" min="0" id="'
             + endId
             + '"></div>'
             + '</div>';
@@ -309,7 +342,7 @@ get the link constructor to work and add other page for player
             + '<button type="button" id="copyOutput-btn" class="btn btn-block btn-lg btn-primary">Copy Your Link</button>'
             + '</div>'
             + '<div class="col-12 col-md-8 mb-2 mb-md-1">'
-            + '<input type="text" id="customUrl-input" class="form-control form-control-lg timeInput">'
+            + '<input type="text" id="customUrl-input" class="form-control form-control-lg">'
             + '</div></div>';
     }
 
@@ -318,24 +351,97 @@ get the link constructor to work and add other page for player
         prevSelectedInput = document.getElementById('start-' + counter);
         $('#url-space').html('');
         counter++;
+        setTimeValidationListeners();
     }
 
-    function contructUrl() {
-        //Todo why am I needing to define vidID again?
-        let vidId = $('#url-field').val().split("=")[1];
-        let times = "";
+    function setTimeValidationListeners() {
         $('.timeInput').each(function(index) {
-            times += ($(this).val() + '&');
+            $(this).on('input', function() {
+                timesValid();
+            });
         });
-        let newUrl = "youtubemod.com/player?" + vidId + "?" + times + "beta";
-        let outputRow = makeUrlRow();
-        let urlSpace = $('#url-space');
-        urlSpace.children().remove();
-        urlSpace.append(outputRow);
-        $('#customUrl-input').val(newUrl);
-        $('#copyOutput-btn').click(function() {
-            copyCustomUrl();
+    }
+
+    function timesValid(){
+        let prev = -1;
+        let valid = true;
+        let max = parseInt($('#timeSlider').attr('max'), 10);
+        $('.timeInput').each(function(index) {
+            let inputVal = toSeconds($(this).val());
+            // let inputVal = parseInt($(this).val(),10);
+            if(inputVal <= prev || isNaN(inputVal) || inputVal > max) {
+                $(this).addClass("is-invalid");
+                prev = inputVal;
+                valid = false;
+            }
+            else if (inputVal > prev){
+                $(this).removeClass("is-invalid");
+                prev = inputVal;
+            }
         });
+        return valid;
+    }
+
+    function toSeconds(input){
+        if(input.includes(":")) {
+            const mins = parseInt(input.split(':')[0], 10);
+            const secs = parseInt(input.split(':')[1], 10);
+            input = mins * 60 + secs;
+            return(input);
+        }
+        return parseInt(input, 10);
+    }
+
+    function toMins(input){
+        if(!input.includes(":")) {
+            const mins = Math.floor(input / 60);
+            const secs = input % 60;
+            if (secs < 10){
+                input = mins + ":0" + secs;
+            } else {
+                input = mins + ":" + secs;
+            }
+        }
+        return input;
+    }
+
+    function toNativeFormat(url, start, end){
+        // let url = "https://www.youtube.com/watch?v=sK-iyzpZGPk";
+        url = url.replace('watch?v=', 'embed/');
+        start = toSeconds(start);
+        end = toSeconds(end);
+        let newUrl = url + '?start=' + start + '&end=' + end + '&version=3';
+        return newUrl
+    }
+    // https://www.youtube.com/watch?v=mTdSh-em7_M
+    // https://www.youtube.com/embed/mTdSh-em7_M?start=62&end=65&version=3
+
+    function contructUrl() {
+        if (timesValid()) {
+            let times = $('.timeInput');
+            let url = $('#url-field').val();
+            let newUrl;
+            // Construct real youtube link if only one start and stop time (which nativly handles)
+            if(times.length <= 2){
+                newUrl = toNativeFormat(url, times[0].value, times[1].value);
+            } else {
+                let vidId = url.split("=")[1];
+                let customTimes = "";
+                times.each(function (index) {
+                    customTimes += (toSeconds($(this).val()) + '&');
+                });
+                newUrl = "youtubemod.com/player?" + vidId + "?" + customTimes + "beta";
+            }
+            let outputRow = makeUrlRow();
+            let urlSpace = $('#url-space');
+            urlSpace.children().remove();
+            urlSpace.append(outputRow);
+            $('#customUrl-input').val(newUrl);
+            $('#copyOutput-btn').click(function () {
+                copyCustomUrl();
+            });
+        }
+
     }
 
 </script>
