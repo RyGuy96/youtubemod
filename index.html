@@ -171,7 +171,7 @@ get the link constructor to work and add other page for player
             prevSelectedInput = document.getElementById(event.target.id);
         }, false);
         $('#showBtn').click(function () {
-            var form = $('<form action="/customizer.html" method="post">' +
+            var form = $('<form action="/customizer" method="post">' +
                 '<input type="text" name="urlToMod" value="' + $('#url-space').innerText + '" />' +
                 '</form>');
             $('body').append(form);
