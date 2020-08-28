@@ -160,10 +160,9 @@ get the link constructor to work and add other page for player
     // https://www.w3schools.com/jquery/html_val.asp
     function loadPage(){
         $('#editor-tools').hide();
+        setListeners();
         var testVal = window.location.href.split("?");
         $('customUrl-input').val(testVal[0]);
-        // populateCustomURLInput();
-        setListeners();
     }
 
     function setListeners() {
