@@ -158,15 +158,13 @@ get the link constructor to work and add other page for player
 
     function loadPage(){
         $('#editor-tools').hide();
-        var testVal = window.location.href.split("?");
-        $('customUrl-input').val(testVal[0]);
         populateCustomURLInput();
         setListeners();
     }
 
     function populateCustomURLInput() {
-        $('customUrl-input').val(window.location.href.split("?")[1]);
-
+        var testVal = window.location.href.split("?");
+        $('customUrl-input').val(testVal[0]);
     }
 
     function setListeners() {
