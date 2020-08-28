@@ -156,15 +156,14 @@ get the link constructor to work and add other page for player
     loadPage();
 
 
+    //LEFTOFFHERE this works, try putting in own fucntion though         // populateCustomURLInput();. syntax when calling in func is different somehow
+    // https://www.w3schools.com/jquery/html_val.asp
     function loadPage(){
         $('#editor-tools').hide();
-        populateCustomURLInput();
-        setListeners();
-    }
-
-    function populateCustomURLInput() {
         var testVal = window.location.href.split("?");
         $('customUrl-input').val(testVal[0]);
+        // populateCustomURLInput();
+        setListeners();
     }
 
     function setListeners() {
