@@ -171,8 +171,8 @@ get the link constructor to work and add other page for player
             prevSelectedInput = document.getElementById(event.target.id);
         }, false);
         $('#showBtn').click(function () {
-
-            var url = "https://youtubemod.com/customizer?" + $('#url-space');
+            alert($('#url-field').value);
+            var url = "https://youtubemod.com/customizer?" + $('#url-field').value;
             window.location.replace(url);
             // renderVideo()
         });
