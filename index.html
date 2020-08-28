@@ -171,15 +171,9 @@ get the link constructor to work and add other page for player
             prevSelectedInput = document.getElementById(event.target.id);
         }, false);
         $('#showBtn').click(function () {
-            var form = $('<form action="/customizer" method="post">' +
-                '<input type="text" name="urlToMod" value="' + $('#url-space').innerText + '" />' +
-                '</form>');
-            $('body').append(form);
-            form.submit();
 
-            // window.location.replace("/Users/ryanlenea/Desktop/youtubeSkipper/youtubeProjectProductionWorking/constructor.html");
-            // alert("test");
-
+            var url = "https://youtubemod.com/customizer?" + $('#url-space');
+            window.location.replace(url);
             // renderVideo()
         });
         $('#removeTimes-btn').click(function () {
