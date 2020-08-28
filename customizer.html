@@ -47,7 +47,7 @@ get the link constructor to work and add other page for player
 
 <!-- Masthead -->
 
-
+<?$var_value = echo php$_GET['urlToMod'];?>
 
 <header class="masthead text-white text-center">
 
@@ -87,7 +87,7 @@ get the link constructor to work and add other page for player
                                 <button type="button" id="removeTimes-btn" class="btn btn-block btn-lg btn-primary">-</button>
                             </div>
                             <div class="col-12 col-md-2 mb-1">
-                                <button id="constructUrl-btn" class="btn btn-block btn-lg btn-primary">Create</button>
+                                <button type="button" id="constructUrl-btn" class="btn btn-block btn-lg btn-primary">Create</button>
                             </div>
                         </div>
                         <div id="user-added-times"></div>
@@ -163,7 +163,6 @@ get the link constructor to work and add other page for player
         setListeners();
     }
 
-
     function setListeners() {
         // Save reference of last last clicked time input field
         document.addEventListener('click', function (event) {
@@ -171,16 +170,7 @@ get the link constructor to work and add other page for player
             prevSelectedInput = document.getElementById(event.target.id);
         }, false);
         $('#showBtn').click(function () {
-            var form = $('<form action="/Users/ryanlenea/Desktop/youtubeSkipper/youtubeProjectProductionWorking/customizer.html" method="post">' +
-                '<input type="text" name="urlToMod" value="' + $('#url-space').innerText + '" />' +
-                '</form>');
-            $('body').append(form);
-            form.submit();
-
-            // window.location.replace("/Users/ryanlenea/Desktop/youtubeSkipper/youtubeProjectProductionWorking/constructor.html");
-            // alert("test");
-
-            // renderVideo()
+            renderVideo()
         });
         $('#removeTimes-btn').click(function () {
             removeLastTime()
@@ -232,14 +222,6 @@ get the link constructor to work and add other page for player
         prevSelectedInput = $('#start-0');
         $('.url-row').remove();
         counter = 1;
-    }
-
-    function addHeader() {
-        const div = document.createElement('div');
-        div.className = 'class="col-xl-9 mx-auto';
-        div.id = 'title';
-        div.innerHTML = `<div class="col-xl-9 mx-auto"><h1 class="mb-5">Create a YouTube url that plays only the parts you want</h1></div>`;
-        document.getElementById('mainForm').prepend(div);
     }
 
     function removeHeader() {
@@ -487,8 +469,6 @@ get the link constructor to work and add other page for player
     }
 
 </script>
-
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
