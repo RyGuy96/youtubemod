@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!--LEFTOFFHERE Not working don't know why-->
 <!--https://www.youtube.com/watch?v=U03lLvhBzOw-->
 <head>
 
@@ -30,19 +30,16 @@
 <body>
 <a href="player"></a>
 <!--LEFTOFFHERE
+Roll back so that just works with seconds so can publish:  see this -
+Get the boxes correctly added. - html stuff
+Get the timeing actually working
+Get the validation working
 Validate url on main screen when click customize
 Logo button for back to main page
 Contigency to return standard format if only a couple times
 Time bar should be initalized to hidden so doesn't flash on main screen
 <!-- Masthead -->
-<nav class="navbar navbar-lightstatic-top">
-    <div class="container">
-        <a class="navbar-brand" href="#" id="logo-text">YouTubeMod</a>
-        <!--<a class="btn btn-primary" href="#">Sign In</a>-->
-    </div>
-</nav>
 
-<!-- Masthead -->
 
 
 <header class="masthead text-white text-center">
@@ -57,38 +54,38 @@ Time bar should be initalized to hidden so doesn't flash on main screen
                     <div id="player"></div>
                 </div>
                 <!--<form>-->
-                <div class="form-row">
-                    <div class="col-12 col-md-9 mb-2 mb-md-1">
-                        <input type="text" id="url-field" class="form-control form-control-lg" placeholder="Enter a YouTube URL to get started...">
-                    </div>
-                    <div class="col-12 col-md-3 mb-1">
-                        <button type="button" id="showBtn" class="btn btn-block btn-lg btn-primary">Customize</button>
-                    </div>
-                </div>
-                <div id="editor-tools" hidden>
-                    <div class = "form-row">
-                        <input type="range" name="timeSlider" id="timeSlider" class="form-control-range mb-2 col-12" value="0" min="0" max="1">
-                    </div>
-                    <div class="form-row orginal">
-                        <div class="col-12 col-md-4 mb-2 mb-md-1">
-                            <input type="text" id="start-0" class="form-control form-control-lg timeInput" placeholder="First Start Time (secs)" min="0">
+                    <div class="form-row">
+                        <div class="col-12 col-md-9 mb-2 mb-md-1">
+                            <input type="text" id="url-field" class="form-control form-control-lg" placeholder="Enter a YouTube URL to get started...">
                         </div>
-                        <div class="col-12 col-md-4 mb-2 mb-md-1">
-                            <input type="text" id="end-0" class="form-control form-control-lg timeInput" placeholder="First End Time (secs)">
-                        </div>
-                        <div class="col-12 col-md-1 mb-1">
-                            <button type="button" id="addTimes-btn" class="btn btn-block btn-lg btn-primary">+</button>
-                        </div>
-                        <div class="col-12 col-md-1 mb-1">
-                            <button type="button" id="removeTimes-btn" class="btn btn-block btn-lg btn-primary">-</button>
-                        </div>
-                        <div class="col-12 col-md-2 mb-1">
-                            <button id="constructUrl-btn" class="btn btn-block btn-lg btn-primary">Create</button>
+                        <div class="col-12 col-md-3 mb-1">
+                            <button type="button" id="showBtn" class="btn btn-block btn-lg btn-primary">Customize</button>
                         </div>
                     </div>
-                    <div id="user-added-times"></div>
-                    <div id="url-space"></div>
-                </div>
+                    <div id="editor-tools">
+                        <div class = "form-row">
+                            <input type="range" name="timeSlider" id="timeSlider" class="form-control-range mb-2 col-12" value="0" min="0" max="1">
+                        </div>
+                        <div class="form-row orginal">
+                            <div class="col-12 col-md-4 mb-2 mb-md-1">
+                                <input type="text" id="start-0" class="form-control form-control-lg timeInput" placeholder="First Start Time" min="0">
+                            </div>
+                            <div class="col-12 col-md-4 mb-2 mb-md-1">
+                                <input type="text" id="end-0" class="form-control form-control-lg timeInput" placeholder="First End Time">
+                            </div>
+                            <div class="col-12 col-md-1 mb-1">
+                                <button type="button" id="addTimes-btn" class="btn btn-block btn-lg btn-primary">+</button>
+                            </div>
+                            <div class="col-12 col-md-1 mb-1">
+                                <button type="button" id="removeTimes-btn" class="btn btn-block btn-lg btn-primary">-</button>
+                            </div>
+                            <div class="col-12 col-md-2 mb-1">
+                                <button id="constructUrl-btn" class="btn btn-block btn-lg btn-primary">Create</button>
+                            </div>
+                        </div>
+                        <div id="user-added-times"></div>
+                        <div id="url-space"></div>
+                    </div>
                 <!--</form>-->
             </div>
         </div>
@@ -137,7 +134,6 @@ Time bar should be initalized to hidden so doesn't flash on main screen
     </div>
 </footer>
 
-
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -154,9 +150,11 @@ Time bar should be initalized to hidden so doesn't flash on main screen
     loadPage();
 
     function loadPage(){
+        $('#editor-tools').hide();
         addHeader();
         setListeners();
     }
+
 
     function setListeners() {
         // Save reference of last last clicked time input field
@@ -165,6 +163,8 @@ Time bar should be initalized to hidden so doesn't flash on main screen
             prevSelectedInput = document.getElementById(event.target.id);
         }, false);
         $('#showBtn').click(function () {
+            // var url = "https://youtubemod.com/customizer?" + $('#url-field').val();
+            // window.location.replace(url);
             renderVideo()
         });
         $('#removeTimes-btn').click(function () {
@@ -174,48 +174,26 @@ Time bar should be initalized to hidden so doesn't flash on main screen
             resetPageSettings()
         });
         $('#addTimes-btn').click(function () {
-            addRow();
-            setTimeValidationListeners();
+            addRow()
         });
         $('#constructUrl-btn').click(function () {
-            constructUrl();
+            $('#url-space').innerHTML = '';
+            contructUrl();
         });
-        $('#timeSlider').change(function () {
+        $('#timeSlider').click(function () {
             sliderPop();
+            timesValid();
         });
-        $("#timeSlider").dblclick(function () {
+        $('#timeSlider').dblclick(function () {
             toggleState();
         });
+        $('#start-0').change(function () {
+            timesValid();
+        });
+        $('#end-0').change(function () {
+            timesValid();
+        });
         setTimeValidationListeners();
-    }
-
-
-    function setTimeValidationListeners() {
-        $('.timeInput').each(function(index) {
-            $(this).on('input', function() {
-                timesValid();
-            });
-        });
-    }
-
-    function timesValid(){
-        console.log("inside timesValid");
-        let prev = -1;
-        let valid = true;
-        let max = parseInt($('#timeSlider').attr('max'), 10);
-        $('.timeInput').each(function(index) {
-            let inputVal = parseInt($(this).val());
-            if(inputVal <= prev || isNaN(inputVal) || inputVal > max) {
-                $(this).addClass("is-invalid");
-                prev = inputVal;
-                valid = false;
-            }
-            else {
-                $(this).removeClass("is-invalid");
-                prev = inputVal;
-            }
-        });
-        return valid;
     }
 
     // Reverts to initial single input page
@@ -255,120 +233,6 @@ Time bar should be initalized to hidden so doesn't flash on main screen
         }
     }
 
-    // Set slider max val
-    // See: https://stackoverflow.com/questions/15596753/how-do-i-get-video-durations-with-youtube-api-version-3
-    function onPlayerReady(event) {
-        event.target.playVideo();
-        console.log(player.getDuration());
-        player.pauseVideo();
-        let vidLength = player.getDuration();
-        document.getElementById("timeSlider").max = vidLength - 2; //not sure why need -2 - maybe because gets time from tw seconds in
-    }
-
-    function copyCustomUrl() {
-        let urlArea = document.getElementById('customUrl-input');
-        urlArea.select();
-        document.execCommand("copy");
-        delete window.alert;
-        window.alert("Your URL is copied to your clipboard!");
-    }
-
-    function removeLastTime(){
-        $("#user-added-times").children().last().remove();
-        counter--;
-        document.getElementById("url-space").innerHTML = '';
-    }
-
-    // Link slider to video time and time input field
-    function sliderPop(){
-        player.seekTo($('#timeSlider').val(), true);
-        $(prevSelectedInput).val($('#timeSlider').val());
-        timesValid();
-    }
-
-    // Pause/Play on double click of slider
-    function toggleState() {
-        let state = player.getPlayerState();
-        if (state === -1 || state === 2 ) {
-            player.playVideo();
-        } else {
-            player.pauseVideo();
-        }
-    }
-
-    function renderVideo() {
-        removeHeader();
-        let vidId = document.getElementById("url-field").value.split("=")[1];
-        // If there is an iframe, there is a video; delete and replace with div placeholder to mark where new iframe to go
-        if ($('iframe').length > 0) {
-            $('iframe').remove();
-            $('#video-spot').append('<div id="player" class="embed-youtube"></div>');
-        }
-        player = new YT.Player('player', {
-            videoId: vidId, //'M7lc1UVf-VE'
-            events: {
-                onReady: onPlayerReady,
-                onError: onPlayerError
-            }
-        });
-        resetTimeSettings();
-        $('#editor-tools').show();
-    }
-
-    function makeTimeRow(){
-        let startId = 'start-' + counter;
-        let endId = 'end-' + counter;
-        htmlRow = '<div class="form-row">'
-            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
-            + '<input type="number" class="form-control form-control-lg timeInput" min="0" id="'
-            + startId
-            + '"></div>'
-            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
-            + '<input type="number" class="form-control form-control-lg timeInput" min="0" id="'
-            + endId
-            + '"></div>'
-            + '</div>';
-        return htmlRow;
-    }
-
-    function makeUrlRow() {
-        return '<div class="form-row output-row url-row">'
-            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
-            + '<button type="button" id="copyOutput-btn" class="btn btn-block btn-lg btn-primary">Copy Your Link</button>'
-            + '</div>'
-            + '<div class="col-12 col-md-8 mb-2 mb-md-1">'
-            + '<input type="text" id="customUrl-input" class="form-control form-control-lg timeInput">'
-            + '</div></div>';
-    }
-
-    function addRow() {
-        $('#user-added-times').append(makeTimeRow());
-        prevSelectedInput = document.getElementById('start-' + counter);
-        $('#url-space').html('');
-        counter++;
-    }
-
-    function constructUrl() {
-        if (!timesValid()) {
-            alert("Please enter a valid time sequence (currently must be sequential integer values representing seconds)");
-            return;
-        }
-        let vidId = $('#url-field').val().split("=")[1];
-        let times = "";
-        $('.timeInput').each(function(index) {
-            times += ($(this).val() + '&');
-        });
-        let newUrl = "youtubemod.com/player?" + vidId + "?" + times + "beta";
-        let outputRow = makeUrlRow();
-        let urlSpace = $('#url-space');
-        urlSpace.children().remove();
-        urlSpace.append(outputRow);
-        $('#customUrl-input').val(newUrl);
-        $('#copyOutput-btn').click(function() {
-            copyCustomUrl();
-        });
-    }
-
     function onPlayerError(event) {
         //This show dialog twice on fail, not sure why. Stop propagaiton couldn't work bc binds to button
         switch (event.data) {
@@ -392,8 +256,224 @@ Time bar should be initalized to hidden so doesn't flash on main screen
                 break
         }
     }
+    // Set slider max val
+    // See: https://stackoverflow.com/questions/15596753/how-do-i-get-video-durations-with-youtube-api-version-3
+    function onPlayerReady(event) {
+        event.target.playVideo();
+        player.pauseVideo();
+        let vidLength = player.getDuration();
+        document.getElementById("timeSlider").max = vidLength - 2; //not sure why need -2 - maybe because gets time from tw seconds in
+    }
+
+    function copyCustomUrl() {
+        let urlArea = document.getElementById('customUrl-input');
+        urlArea.select();
+        document.execCommand("copy");
+        delete window.alert;
+        window.alert("Your URL is copied to your clipboard!");
+    }
+
+    function removeLastTime(){
+        $("#user-added-times").children().last().remove();
+        counter--;
+        document.getElementById("url-space").innerHTML = '';
+    }
+
+    // Link slider to video time and time input field
+    function sliderPop(){
+        player.seekTo($('#timeSlider').val(), true);
+        // $(prevSelectedInput).val($('#timeSlider').val());
+        $(prevSelectedInput).val(toMins($('#timeSlider').val()));
+    }
+
+    // Pause/Play on double click of slider
+    function toggleState() {
+        let state = player.getPlayerState();
+        if (state === -1 || state === 2 ) {
+            player.playVideo();
+        } else {
+            player.pauseVideo();
+        }
+    }
+
+    function renderVideo() {
+        removeHeader();
+        let vidId = document.getElementById("url-field").value.split("=")[1];
+        // If there is an iframe, there is a video; delete and replace with div placeholder to mark where new iframe to go
+        if ($('iframe').length > 0) {
+            $('iframe').remove();
+            $('#video-spot').append('<div id="player" class="embed-youtube"></div>');
+        }
+        player = new YT.Player('player', {
+            videoId: vidId, //'M7lc1UVf-VE'
+            events: {
+                onError: onPlayerError,
+                onReady: onPlayerReady
+            }
+        });
+        resetTimeSettings();
+        $('#editor-tools').show();
+    }
+
+    function makeTimeRow(){
+        let startId = 'start-' + counter;
+        let endId = 'end-' + counter;
+        htmlRow = '<div class="form-row">'
+            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
+            + '<input type="text" class="form-control form-control-lg timeInput" min="0" id="'
+            + startId
+            + '"></div>'
+            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
+            + '<input type="text" class="form-control form-control-lg timeInput" min="0" id="'
+            + endId
+            + '"></div>'
+            + '</div>';
+        return htmlRow;
+    }
+
+    function makeUrlRow() {
+        return '<div class="form-row output-row url-row">'
+            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
+            + '<button type="button" id="copyOutput-btn" class="btn btn-block btn-lg btn-primary">Copy Your Link</button>'
+            + '</div>'
+            + '<div class="col-12 col-md-8 mb-2 mb-md-1">'
+            + '<input type="text" id="customUrl-input" class="form-control form-control-lg">'
+            + '</div></div>';
+    }
+
+    function addRow() {
+        $('#user-added-times').append(makeTimeRow());
+        prevSelectedInput = document.getElementById('start-' + counter);
+        $('#url-space').html('');
+        counter++;
+        setTimeValidationListeners();
+    }
+
+    function setTimeValidationListeners() {
+        $('.timeInput').each(function(index) {
+            $(this).on('input', function() {
+                timesValid();
+            });
+        });
+    }
+
+    function timesValid(){
+        let prev = -1;
+        let valid = true;
+        let max = parseInt($('#timeSlider').attr('max'), 10);
+        $('.timeInput').each(function(index) {
+            let inputVal = toSeconds($(this).val());
+            // let inputVal = parseInt($(this).val(),10);
+            if(inputVal <= prev || isNaN(inputVal) || inputVal > max) {
+                $(this).addClass("is-invalid");
+                prev = inputVal;
+                valid = false;
+            }
+            else if (inputVal > prev){
+                $(this).removeClass("is-invalid");
+                prev = inputVal;
+            }
+        });
+        return valid;
+    }
+
+    function toSeconds(input){
+        if(input.includes(":")) {
+            const mins = parseInt(input.split(':')[0], 10);
+            const secs = parseInt(input.split(':')[1], 10);
+            input = mins * 60 + secs;
+            return(input);
+        }
+        return parseInt(input, 10);
+    }
+
+    function toMins(input){
+        if(!input.includes(":")) {
+            const mins = Math.floor(input / 60);
+            const secs = input % 60;
+            if (secs < 10){
+                input = mins + ":0" + secs;
+            } else {
+                input = mins + ":" + secs;
+            }
+        }
+        return input;
+    }
+
+    function toNativeFormat(url, start, end){
+        // let url = "https://www.youtube.com/watch?v=sK-iyzpZGPk";
+        url = url.replace('watch?v=', 'embed/');
+        start = toSeconds(start);
+        end = toSeconds(end);
+        let newUrl = url + '?start=' + start + '&end=' + end + '&version=3';
+        return newUrl
+    }
+    // https://www.youtube.com/watch?v=mTdSh-em7_M
+    // https://www.youtube.com/embed/mTdSh-em7_M?start=62&end=65&version=3
+
+    function contructUrl() {
+        if (timesValid()) {
+            let times = $('.timeInput');
+            let url = $('#url-field').val();
+            let newUrl;
+            // Construct real youtube link if only one start and stop time (which nativly handles)
+            if (times.length <= 2) {
+                newUrl = toNativeFormat(url, times[0].value, times[1].value);
+            } else {
+                let vidId = url.split("=")[1];
+                let customTimes = "";
+                times.each(function (index) {
+                    customTimes += (toSeconds($(this).val()) + '&');
+                });
+                newUrl = "youtubemod.com/player?" + vidId + "?" + customTimes + "beta";
+            }
+            let outputRow = makeUrlRow();
+            let urlSpace = $('#url-space');
+            urlSpace.children().remove();
+            urlSpace.append(outputRow);
+            $('#customUrl-input').val(newUrl);
+            $('#copyOutput-btn').click(function () {
+                copyCustomUrl();
+            });
+        }
+    }
+
+
+    function secondsToHms(d) {
+        if (!input.includes(":")) {
+            d = Number(d);
+            let h = Math.floor(d / 3600);
+            let m = Math.floor(d % 3600 / 60);
+            let s = Math.floor(d % 3600 % 60);
+            h = 10 > h ? "0" + h : h.toString();
+            m = 10 > m ? "0" + m : m.toString();
+            m = 10 > s ? "0" + s : s.toString();
+            return h + ":" + m + ":" + s;
+        } else if (input.includes(":")) {
+
+        }
+    }
+
+    //
+    function createTimeRow() {
+        let hrs = '<div class="col-12 col-md-4 mb-2 mb-md-1"><select name="hrs" id="hrs"><option value="0">hrs</option>';
+        let mins = '<div class="col-12 col-md-4 mb-2 mb-md-1"><select name="mins" id="mins"><option value="0">mins</option>';
+        let secs = '<div class="col-12 col-md-4 mb-2 mb-md-1"><select name="secs" id="secs"><option value="0">secs</option>';
+
+        for (let i = 0; i <= 60; i++) {
+            hrs += '<option value="' + i + '">' + i.toString() + '</option>';
+            mins += '<option value="' + i + '">' + i.toString() + '</option>';
+            secs += '<option value="' + i + '">' + i.toString() + '</option>';
+        }
+        hrs.concat('</select></div>');
+        mins.concat('</select></div>');
+        secs.concat('</select></div>');
+        return '<div class="form-row">' + hrs + mins + secs + '</div>';
+    }
 
 </script>
+
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

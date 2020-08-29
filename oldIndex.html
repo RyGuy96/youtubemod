@@ -30,66 +30,69 @@
 <body>
 <a href="player"></a>
 <!--LEFTOFFHERE
-Validate url on main screen when click customize
-Logo button for back to main page
-Contigency to return standard format if only a couple times
-Time bar should be initalized to hidden so doesn't flash on main screen
-<!-- Masthead -->
-<nav class="navbar navbar-lightstatic-top">
+get the link constructor to work and add other page for player
+<!--Add form validation-->
+<!--deploy-->
+<!--move video up when render so clsoer to top-->
+<!--finalize hader and footer-->
+<!--contingency to just make standard youtube url when provided-->
+<!--add prompts to make to make going throug heasy-->
+<!--change button color to youtube red #FF0100-->
+<!-- Navigation -->
+<nav class="navbar navbar-light bg-light static-top">
     <div class="container">
         <a class="navbar-brand" href="#" id="logo-text">YouTubeMod</a>
-        <!--<a class="btn btn-primary" href="#">Sign In</a>-->
+        <a class="btn btn-primary" href="#">Sign In</a>
     </div>
 </nav>
 
 <!-- Masthead -->
 
-
 <header class="masthead text-white text-center">
+
 
     <div class="overlay"></div>
     <div class="container">
-        <!--<a class="navbar-brand" href="#" id="logo-text">YouTubeMod</a>-->
         <div class="row" id="mainForm">
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
                 <div class ="form-row mb-2">
                     <div id="video-spot"></div>
                     <div id="player"></div>
                 </div>
-                <!--<form>-->
-                <div class="form-row">
-                    <div class="col-12 col-md-9 mb-2 mb-md-1">
-                        <input type="text" id="url-field" class="form-control form-control-lg" placeholder="Enter a YouTube URL to get started...">
-                    </div>
-                    <div class="col-12 col-md-3 mb-1">
-                        <button type="button" id="showBtn" class="btn btn-block btn-lg btn-primary">Customize</button>
-                    </div>
-                </div>
-                <div id="editor-tools" hidden>
-                    <div class = "form-row">
-                        <input type="range" name="timeSlider" id="timeSlider" class="form-control-range mb-2 col-12" value="0" min="0" max="1">
-                    </div>
-                    <div class="form-row orginal">
-                        <div class="col-12 col-md-4 mb-2 mb-md-1">
-                            <input type="text" id="start-0" class="form-control form-control-lg timeInput" placeholder="First Start Time (secs)" min="0">
+                <form>
+                    <div class="form-row">
+                        <div class="col-12 col-md-9 mb-2 mb-md-1">
+                            <input type="text" id="url-field" class="form-control form-control-lg" placeholder="Enter a YouTube URL to get started...">
                         </div>
-                        <div class="col-12 col-md-4 mb-2 mb-md-1">
-                            <input type="text" id="end-0" class="form-control form-control-lg timeInput" placeholder="First End Time (secs)">
-                        </div>
-                        <div class="col-12 col-md-1 mb-1">
-                            <button type="button" id="addTimes-btn" class="btn btn-block btn-lg btn-primary">+</button>
-                        </div>
-                        <div class="col-12 col-md-1 mb-1">
-                            <button type="button" id="removeTimes-btn" class="btn btn-block btn-lg btn-primary">-</button>
-                        </div>
-                        <div class="col-12 col-md-2 mb-1">
-                            <button id="constructUrl-btn" class="btn btn-block btn-lg btn-primary">Create</button>
+                        <div class="col-12 col-md-3 mb-1">
+                            <button type="button" id="showBtn" class="btn btn-block btn-lg btn-primary">Customize</button>
                         </div>
                     </div>
-                    <div id="user-added-times"></div>
-                    <div id="url-space"></div>
-                </div>
-                <!--</form>-->
+                    <div id="editor-tools">
+                        <div class = "form-row">
+                            <input type="range" name="timeSlider" id="timeSlider" class="form-control-range mb-2 col-12" value="0" min="0" max="100">
+                        </div>
+                        <div class="form-row orginal">
+                            <div class="col-12 col-md-4 mb-2 mb-md-1">
+                                <input type="number" id="start-0" class="form-control form-control-lg timeInput" placeholder="First Start Time" min="0">
+                            </div>
+                            <div class="col-12 col-md-4 mb-2 mb-md-1">
+                                <input type="number" id="end-0" class="form-control form-control-lg timeInput" placeholder="First End Time">
+                            </div>
+                            <div class="col-12 col-md-1 mb-1">
+                                <button type="button" id="addTimes-btn" class="btn btn-block btn-lg btn-primary">+</button>
+                            </div>
+                            <div class="col-12 col-md-1 mb-1">
+                                <button type="button" id="removeTimes-btn" class="btn btn-block btn-lg btn-primary">-</button>
+                            </div>
+                            <div class="col-12 col-md-2 mb-1">
+                                <button type="button" id="constructUrl-btn" class="btn btn-block btn-lg btn-primary">Create</button>
+                            </div>
+                        </div>
+                        <div id="user-added-times"></div>
+                        <div id="url-space"></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -137,7 +140,6 @@ Time bar should be initalized to hidden so doesn't flash on main screen
     </div>
 </footer>
 
-
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -154,6 +156,7 @@ Time bar should be initalized to hidden so doesn't flash on main screen
     loadPage();
 
     function loadPage(){
+        $('#editor-tools').hide();
         addHeader();
         setListeners();
     }
@@ -170,52 +173,22 @@ Time bar should be initalized to hidden so doesn't flash on main screen
         $('#removeTimes-btn').click(function () {
             removeLastTime()
         });
+
         $('#logo-text').click(function () {
             resetPageSettings()
         });
         $('#addTimes-btn').click(function () {
-            addRow();
-            setTimeValidationListeners();
+            addRow()
         });
         $('#constructUrl-btn').click(function () {
-            constructUrl();
+            contructUrl()
         });
-        $('#timeSlider').change(function () {
-            sliderPop();
+        $('#timeSlider').click(function () {
+            sliderPop()
         });
         $("#timeSlider").dblclick(function () {
-            toggleState();
+            toggleState()
         });
-        setTimeValidationListeners();
-    }
-
-
-    function setTimeValidationListeners() {
-        $('.timeInput').each(function(index) {
-            $(this).on('input', function() {
-                timesValid();
-            });
-        });
-    }
-
-    function timesValid(){
-        console.log("inside timesValid");
-        let prev = -1;
-        let valid = true;
-        let max = parseInt($('#timeSlider').attr('max'), 10);
-        $('.timeInput').each(function(index) {
-            let inputVal = parseInt($(this).val());
-            if(inputVal <= prev || isNaN(inputVal) || inputVal > max) {
-                $(this).addClass("is-invalid");
-                prev = inputVal;
-                valid = false;
-            }
-            else {
-                $(this).removeClass("is-invalid");
-                prev = inputVal;
-            }
-        });
-        return valid;
     }
 
     // Reverts to initial single input page
@@ -283,7 +256,6 @@ Time bar should be initalized to hidden so doesn't flash on main screen
     function sliderPop(){
         player.seekTo($('#timeSlider').val(), true);
         $(prevSelectedInput).val($('#timeSlider').val());
-        timesValid();
     }
 
     // Pause/Play on double click of slider
@@ -307,8 +279,7 @@ Time bar should be initalized to hidden so doesn't flash on main screen
         player = new YT.Player('player', {
             videoId: vidId, //'M7lc1UVf-VE'
             events: {
-                onReady: onPlayerReady,
-                onError: onPlayerError
+                onReady: onPlayerReady
             }
         });
         resetTimeSettings();
@@ -348,11 +319,8 @@ Time bar should be initalized to hidden so doesn't flash on main screen
         counter++;
     }
 
-    function constructUrl() {
-        if (!timesValid()) {
-            alert("Please enter a valid time sequence (currently must be sequential integer values representing seconds)");
-            return;
-        }
+    function contructUrl() {
+        //Todo why am I needing to define vidID again?
         let vidId = $('#url-field').val().split("=")[1];
         let times = "";
         $('.timeInput').each(function(index) {
@@ -367,30 +335,6 @@ Time bar should be initalized to hidden so doesn't flash on main screen
         $('#copyOutput-btn').click(function() {
             copyCustomUrl();
         });
-    }
-
-    function onPlayerError(event) {
-        //This show dialog twice on fail, not sure why. Stop propagaiton couldn't work bc binds to button
-        switch (event.data) {
-            case 2:
-                alert('Not a valid url');
-                break;
-            case 5:
-                alert('HTML5 player error - try a different browser');
-                break;
-            case 100:
-                alert('Could not find that video');
-                break;
-            case 101:
-                alert('Owner blocked video from playing on 3rd party sites');
-                break;
-            case 150:
-                alert('Owner blocked video from playing on 3rd party sites');
-                break;
-            default:
-                alert('Unkown error playing video');
-                break
-        }
     }
 
 </script>
