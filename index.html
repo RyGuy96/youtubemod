@@ -43,8 +43,8 @@ get rid of # in url when click logo (called a fragement and is link to certian p
 <!-- Masthead -->
 <nav class="navbar navbar-lightstatic-top">
     <div class="container">
-        <a class="navbar-brand" href="#" id="logo-text">YouTubeMod</a>
-        <!--<a class="btn btn-primary" href="#">Sign In</a>-->
+        <a class="navbar-brand" href="" id="logo-text">YouTubeMod</a>
+        <!--location.reload();-->
     </div>
 </nav>
 
@@ -380,7 +380,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
         switch (event.data) {
             case 2:
                 alert('Not a valid url');
-                event.stopImmediatePropagation();
+                event.stopPropagation();
                 break;
             case 5:
                 alert('HTML5 player error - try a different browser');
