@@ -382,22 +382,18 @@ get rid of # in url when click logo (called a fragement and is link to certian p
     }
 
     function onPlayerError(event) {
-        //This show dialog twice on fail, not sure why. Stop propagaiton couldn't work bc binds to button
         switch (event.data) {
             case 2:
-                // Hack to get around Youtube API bug that throws two errors on each invalid url (case 2) error:
+                // Hack to get around Youtube API bug that throws two errors on each invalid url instance (case 2):
                 // https://stackoverflow.com/questions/31878905/youtube-iframe-api-why-is-onerror-event-being-called-twice
                 if (errorCounter === 0){
                     alert('Not a valid url');
                     errorCounter = 1;
-                    console.log("onPlayerError value: " + errorCounter);
                 }
                 else {
                     errorCounter = 0;
-                    console.log("onPlayerError value: " + errorCounter);
                 }
                 break;
-
             case 5:
                 alert('HTML5 player error - try a different browser');
                 break;
