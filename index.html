@@ -30,6 +30,7 @@
 <body>
 <a href="player"></a>
 <!--LEFTOFFHERE
+get it to start on pause insted of continous load
 Validate url on main screen when click customize:
 figure out why validation url error pops up twice
 Make icons work for FB link, and add github link to repo (see original boostrap templte)
@@ -37,7 +38,7 @@ Contigency to return standard format if only a couple times
 Add little hints about putting in a URL and times that can close
 Try to get improve resizing a little bit, hopfully make work on mobile
 Clean up code and publish with good readme
-Add min/hour/secs conversion like had in previous version, consider: https://stackoverflow.com/questions/24180204/bootstrap-timepicker-plugin-set-full-time-hour-minutes-seconds
+Add min/hour/secs conversion like had in previous version, consider: https://stackoverflow.com/questions/24180204/boƒotstrap-timepicker-plugin-set-full-time-hour-minutes-seconds
 get rid of # in url when click logo (called a fragement and is link to certian part of page)
 <!-- Masthead -->
 <nav class="navbar navbar-lightstatic-top">
@@ -378,6 +379,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
         //This show dialog twice on fail, not sure why. Stop propagaiton couldn't work bc binds to button
         switch (event.data) {
             case 2:
+                event.stopImmediatePropagation();
                 alert('Not a valid url');
                 break;
             case 5:
