@@ -270,11 +270,9 @@ get rid of # in url when click logo (called a fragement and is link to certian p
     // Set slider max val
     // See: https://stackoverflow.com/questions/15596753/how-do-i-get-video-durations-with-youtube-api-version-3
     function onPlayerReady(event) {
-        event.target.playVideo();
-        console.log(player.getDuration());
-        player.pauseVideo();
+        // event.target.playVideo();
         let vidLength = player.getDuration();
-        document.getElementById("timeSlider").max = vidLength - 2; //not sure why need -2 - maybe because gets time from tw seconds in
+        document.getElementById("timeSlider").max = vidLength - 2; // Not sure why need -2
     }
 
     function copyCustomUrl() {
