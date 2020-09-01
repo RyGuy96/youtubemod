@@ -44,7 +44,6 @@ get rid of # in url when click logo (called a fragement and is link to certian p
 <nav class="navbar navbar-lightstatic-top">
     <div class="container">
         <a class="navbar-brand" href="#" id="logo-text">YouTubeMod</a>
-        <!--<a class="navbar-brand" href="" id="logo-text">YouTubeMod</a>-->
     </div>
 </nav>
 
@@ -236,7 +235,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
         // if (!$('#title')) {
         //     addHeader();
         // }
-        //Above addHeader not working. Temp fix to just reload page below.
+        //Above addHeader adding back in not working, also url has # which shouldn't. Temp fix to just reload page below.
         location.reload();
     }
 
@@ -383,8 +382,8 @@ get rid of # in url when click logo (called a fragement and is link to certian p
         //This show dialog twice on fail, not sure why. Stop propagaiton couldn't work bc binds to button
         switch (event.data) {
             case 2:
+                location.reload();
                 alert('Not a valid url');
-                event.stopPropagation();
                 break;
             case 5:
                 alert('HTML5 player error - try a different browser');
