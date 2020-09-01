@@ -46,7 +46,7 @@
 
     // Parse custom Url
     function parseCustomURL(customUrl) {
-        customUrl =  "youtubemod.com/player?mTdSh-em7_M?222&230&864&1102&beta";
+        customUrl =  document.location.href; //"youtubemod.com/player?mTdSh-em7_M?222&230&864&1102&beta";
         inputId = [customUrl.split("\?")[1]];
         body = customUrl.split("\?")[2];
         times = body.split("\&");
