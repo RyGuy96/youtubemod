@@ -43,8 +43,8 @@ get rid of # in url when click logo (called a fragement and is link to certian p
 <!-- Masthead -->
 <nav class="navbar navbar-lightstatic-top">
     <div class="container">
-        <a class="navbar-brand" href="" id="logo-text">YouTubeMod</a>
-        <!--location.reload();-->
+        <a class="navbar-brand" id="logo-text">YouTubeMod</a>
+        <!--<a class="navbar-brand" href="" id="logo-text">YouTubeMod</a>-->
     </div>
 </nav>
 
@@ -192,6 +192,11 @@ get rid of # in url when click logo (called a fragement and is link to certian p
         $("#timeSlider").dblclick(function () {
             toggleState();
         });
+        $("#timeSlider").dblclick(function () {
+            toggleState();
+        });
+
+        <!--location.reload();-->
         setTimeValidationListeners();
     }
 
@@ -226,14 +231,16 @@ get rid of # in url when click logo (called a fragement and is link to certian p
 
     // Reverts to initial single input page
     function resetPageSettings() {
-        resetTimeSettings();
-        $('#editor-tools').hide();
-        $('iframe').remove();
-        $('#video-spot').append('<div id="player" class="embed-youtube"></div>');
-        $('#url-field').val('');
-        if (!$('#title')) {
-            addHeader();
-        }
+        // resetTimeSettings();
+        // $('#editor-tools').hide();
+        // $('iframe').remove();
+        // $('#video-spot').append('<div id="player" class="embed-youtube"></div>');
+        // $('#url-field').val('');
+        // if (!$('#title')) {
+        //     addHeader();
+        // }
+        //Above addHeader not working. Temp fix to just reload page below.
+        location.reload();
     }
 
     // Video remains, no header
@@ -399,6 +406,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
                 break
         }
     }
+
 
 </script>
 
