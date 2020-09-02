@@ -13,6 +13,6 @@ over content you're not interested in. Natively, YouTube allows just one start a
 
 ## Acknowledgments
 
-Thanks to [Dave Miller](http://davidmiller.io/) creator of [this lovely Boostrap landing page template](https://startbootstrap.com/template-overviews/landing-page/) which I thoroughly butchered, Professors [Mathew Spitzer](https://www.linkedin.com/in/matt-spitzer-60434a13/) and [Daniel Nash](https://www.linkedin.com/in/daniel-nash-4a39865/) for their webdev classes, [Jonathan Hartley](https://www.tartley.com/) for his encouragement and undeserved compliments, [Paris Hare](https://www.linkedin.com/in/paris-hare-ba8633b0/) for his insistence that I "be a [project] finisher", and most of all to Patrick Spinler for his unending patience, kindness, and mentorship.
+Thanks to [Dave Miller],(http://davidmiller.io/) creator of [this lovely Boostrap landing page template](https://startbootstrap.com/template-overviews/landing-page/) which I thoroughly butchered, Professors [Mathew Spitzer](https://www.linkedin.com/in/matt-spitzer-60434a13/) and [Daniel Nash](https://www.linkedin.com/in/daniel-nash-4a39865/) for their webdev classes, [Jonathan Hartley](https://www.tartley.com/) for his encouragement and undeserved compliments, [Paris Hare](https://www.linkedin.com/in/paris-hare-ba8633b0/) for his insistence that I "be a [project] finisher", and most of all to Patrick Spinler for his unending patience, kindness, and mentorship.
 
 &copy; 2020 Ryan Lenea
