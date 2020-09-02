@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!--https://www.youtube.com/watch?v=U03lLvhBzOw-->
+<!--TODO:-->
+<!--actual readme-->
+<!--add a little explanation demo-->
+<!--Add little hints about putting in a URL and times that can close-->
+<!--Add min/hour/secs conversion like had in previous version, consider: https://stackoverflow.com/questions/24180204/boƒotstrap-timepicker-plugin-set-full-time-hour-minutes-seconds-->
+<!--Better way than toggle hack to get around API bug throwing 2 errors on every invalid URL error. See onPlayerError(event) below-->
+<!--Add a login for saved videos-->
+<!--Add some test to test changes-->
+<!--Example video to modify for testing: https://www.youtube.com/watch?v=U03lLvhBzOw-->
+
 <head>
 
     <meta charset="utf-8">
+    <meta name="keywords" content="YouTube, deep link, start time, video">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Customize a YouTube URL to play only the parts you want">
+    <meta name="author" content="Ryan Lenea">
 
     <title>YouTubeMod</title>
 
@@ -19,47 +29,34 @@
     <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Dancing Script" rel="stylesheet" type="text/css">
+
     <!-- Custom styles for this template -->
     <!--<link href="css/landing-page.min.css" rel="stylesheet">-->
     <link href="css/landing-page.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/ico" href="img/favicon.ico">
-
-
 </head>
 
+
 <body>
-<a href="player"></a>
-<!--LEFTOFFHERE
-Make validation and link makeing handling no end time (just default ot video length)
-Add little hints about putting in a URL and times that can close
-Try to get improve resizing a little bit, hopfully make work on mobile
-Clean up code and publish with good readme
-get little thing to pop up saying what does like the youtubetime.com one
-Add min/hour/secs conversion like had in previous version, consider: https://stackoverflow.com/questions/24180204/boƒotstrap-timepicker-plugin-set-full-time-hour-minutes-seconds
-get rid of # in url when click logo (called a fragement and is link to certian part of page)
-<!-- Masthead -->
+
+<!-- Page masthead -->
 <nav class="navbar navbar-lightstatic-top">
     <div class="container">
         <a class="navbar-brand" href="#" id="logo-text">YouTubeMod</a>
     </div>
-    <!--ADd a login for saved videos in future-->
+    <!--TODO Add a login for saved videos in future here-->
 </nav>
 
-<!-- Masthead -->
-
-
+<!-- Page body -->
 <header class="masthead text-white text-center">
-
     <div class="overlay"></div>
     <div class="container">
-        <!--<a class="navbar-brand" href="#" id="logo-text">YouTubeMod</a>-->
         <div class="row" id="mainForm">
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
                 <div class ="form-row mb-2">
                     <div id="video-spot"></div>
                     <div id="player"></div>
                 </div>
-                <!--<form>-->
                 <div class="form-row">
                     <div class="col-12 col-md-9 mb-2 mb-md-1">
                         <input type="text" id="url-field" class="form-control form-control-lg" placeholder="Enter a YouTube URL to get started...">
@@ -67,7 +64,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
                     <div class="col-12 col-md-3 mb-1">
                         <button type="button" id="showBtn" class="btn btn-block btn-lg btn-primary">Customize</button>
                     </div>
-                    <!--Add see demo link to a video here or prompt if user doesn't input-->
+                    <!--TODO: Add see demo link to a video here or prompt if user doesn't input-->
                 </div>
                 <div id="editor-tools" style="display: none">
                     <div class = "form-row">
@@ -93,21 +90,18 @@ get rid of # in url when click logo (called a fragement and is link to certian p
                     <div id="user-added-times"></div>
                     <div id="url-space"></div>
                 </div>
-                <!--</form>-->
             </div>
         </div>
     </div>
-    </div>
 </header>
 
-
-
-<!-- Footer -->
+<!-- Page Footer -->
 <footer class="footer bg-light">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
                 <ul class="list-inline mb-2">
+                    <!--TODO consider an about page here-->
                     <!--<li class="list-inline-item">-->
                         <!--<a href="#">About</a>-->
                     <!--</li>-->
@@ -135,293 +129,22 @@ get rid of # in url when click logo (called a fragement and is link to certian p
     </div>
 </footer>
 
-
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-
+<!-- Youtube Iframe API -->
 <script src="https://www.youtube.com/iframe_api"></script>
 
-<script>
+<!-- Create custom url and handle page events JavaScript -->
+<script src="main.js"></script>
 
-
-    let errorCounter = 0; // toggle value to get around API bug throwing 2 errors on every invalid URL error. See onPlayerError(event)
-
-    let counter = 1;
-    let player;
-    let prevSelectedInput = $('#start-0');
-
-    loadPage();
-
-    function loadPage(){
-        addHeader();
-        setListeners();
-    }
-
-    function setListeners() {
-        // Save reference of last last clicked time input field
-        document.addEventListener('click', function (event) {
-            if (!event.target.matches('.timeInput')) return;
-            prevSelectedInput = document.getElementById(event.target.id);
-        }, false);
-        $('#showBtn').click(function () {
-            renderVideo()
-        });
-        $('#removeTimes-btn').click(function () {
-            removeLastTime()
-        });
-        $('#logo-text').click(function () {
-            resetPageSettings()
-        });
-        $('#addTimes-btn').click(function () {
-            addRow();
-            setTimeValidationListeners();
-        });
-        $('#constructUrl-btn').click(function () {
-            constructUrl();
-        });
-        $('#timeSlider').change(function () {
-            sliderPop();
-        });
-        $("#timeSlider").dblclick(function () {
-            toggleState();
-        });
-        <!--location.reload();-->
-        setTimeValidationListeners();
-    }
-
-
-
-    function setTimeValidationListeners() {
-        $('.timeInput').each(function(index) {
-            $(this).on('input', function() {
-                timesValid();
-            });
-        });
-    }
-
-    function timesValid(){
-        console.log("inside timesValid");
-        let prev = -1;
-        let valid = true;
-        let max = parseInt($('#timeSlider').attr('max'), 10);
-        $('.timeInput').each(function(index) {
-            let inputVal = parseInt($(this).val());
-            if(inputVal <= prev || isNaN(inputVal) || inputVal > max) {
-                $(this).addClass("is-invalid");
-                prev = inputVal;
-                valid = false;
-            }
-            else {
-                $(this).removeClass("is-invalid");
-                prev = inputVal;
-            }
-        });
-        return valid;
-    }
-
-    // Reverts to initial single input page
-    function resetPageSettings() {
-        // resetTimeSettings();
-        // $('#editor-tools').hide();
-        // $('iframe').remove();
-        // $('#video-spot').append('<div id="player" class="embed-youtube"></div>');
-        // $('#url-field').val('');
-        // if (!$('#title')) {
-        //     addHeader();
-        // }
-        //Above addHeader adding back in not working, also url has # which shouldn't. Temp fix to just reload page below.
-        location.reload();
-    }
-
-    // Video remains, no header
-    function resetTimeSettings(){
-        $('#start-0').value = '';
-        $('#end-0').value = '';
-        $("#user-added-times").children().remove();
-        $('#url-space').innerHTML = '';
-        prevSelectedInput = $('#start-0');
-        $('.url-row').remove();
-        counter = 1;
-    }
-
-    function addHeader() {
-        const div = document.createElement('div');
-        div.className = 'class="col-xl-9 mx-auto';
-        div.id = 'title';
-        div.innerHTML = `<div class="col-xl-9 mx-auto"><h1 class="mb-5">Create a YouTube url that plays only the parts you want</h1></div>`;
-        document.getElementById('mainForm').prepend(div);
-    }
-
-    function removeHeader() {
-        if ($('#title')){
-            $('#title').remove();
-        }
-    }
-
-    // Set slider max val
-    function onPlayerReady(event) {
-        let vidLength = player.getDuration();
-        document.getElementById("timeSlider").max = vidLength - 2; // Not sure why need -2
-    }
-
-    function copyCustomUrl() {
-        let urlArea = document.getElementById('customUrl-input');
-        urlArea.select();
-        document.execCommand("copy");
-        delete window.alert;
-        window.alert("Your URL is copied to your clipboard!");
-    }
-
-    function removeLastTime(){
-        $("#user-added-times").children().last().remove();
-        counter--;
-        document.getElementById("url-space").innerHTML = '';
-    }
-
-    // Link slider to video time and time input field
-    function sliderPop(){
-        player.seekTo($('#timeSlider').val(), true);
-        $(prevSelectedInput).val($('#timeSlider').val());
-        timesValid();
-    }
-
-    // Pause/Play on double click of slider
-    function toggleState() {
-        let state = player.getPlayerState();
-        if (state === -1 || state === 2 ) {
-            player.playVideo();
-        } else {
-            player.pauseVideo();
-        }
-    }
-
-    function renderVideo() {
-        removeHeader();
-        let vidId = document.getElementById("url-field").value.split("=")[1];
-        // If there is an iframe, there is a video; delete and replace with div placeholder to mark where new iframe to go
-        if ($('iframe').length > 0) {
-            $('iframe').remove();
-            $('#video-spot').append('<div id="player" class="embed-youtube"></div>');
-        }
-        player = new YT.Player('player', {
-            videoId: vidId, //'M7lc1UVf-VE'
-            events: {
-                onReady: onPlayerReady,
-                onError: onPlayerError
-            }
-        });
-        resetTimeSettings();
-        $('#editor-tools').show();
-    }
-
-    function makeTimeRow(){
-        let startId = 'start-' + counter;
-        let endId = 'end-' + counter;
-        htmlRow = '<div class="form-row">'
-            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
-            + '<input type="number" class="form-control form-control-lg timeInput" min="0" id="'
-            + startId
-            + '"></div>'
-            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
-            + '<input type="number" class="form-control form-control-lg timeInput" min="0" id="'
-            + endId
-            + '"></div>'
-            + '</div>';
-        return htmlRow;
-    }
-
-    function makeUrlRow() {
-        return '<div class="form-row output-row url-row">'
-            + '<div class="col-12 col-md-4 mb-2 mb-md-1">'
-            + '<button type="button" id="copyOutput-btn" class="btn btn-block btn-lg btn-primary">Copy Your Link</button>'
-            + '</div>'
-            + '<div class="col-12 col-md-8 mb-2 mb-md-1">'
-            + '<input type="text" id="customUrl-input" class="form-control form-control-lg timeInput">'
-            + '</div></div>';
-    }
-
-    function addRow() {
-        $('#user-added-times').append(makeTimeRow());
-        prevSelectedInput = document.getElementById('start-' + counter);
-        $('#url-space').html('');
-        counter++;
-    }
-
-    function constructUrl() {
-
-        let newURl;
-
-        if (!timesValid()) {
-            alert("Please enter a valid time sequence (currently must be sequential integer values representing seconds)");
-            return;
-        }
-
-        let vidId = $('#url-field').val().split("=")[1];
-
-        // A legitimate Youtube URL supports a start and stop time
-        if ($('.timeInput').length === 2){
-            let times = $('.timeInput');
-            console.log(times);
-            newUrl = "https://www.youtube.com/embed/" + vidId + "?start=" + times[0].value + "&end=" + times[1].value;
-        } else {
-            let times = "";
-            $('.timeInput').each(function(index) {
-                times += ($(this).val() + '&');
-            });
-            newUrl = "youtubemod.com/player?" + vidId + "?" + times + "beta";
-        }
-
-        let outputRow = makeUrlRow();
-        let urlSpace = $('#url-space');
-        urlSpace.children().remove();
-        urlSpace.append(outputRow);
-        $('#customUrl-input').val(newUrl);
-        $('#copyOutput-btn').click(function() {
-            copyCustomUrl();
-        });
-
-    }
-
-    function onPlayerError(event) {
-        switch (event.data) {
-            case 2:
-                // Hack to get around Youtube API bug that throws two errors on each invalid url instance (case 2):
-                // https://stackoverflow.com/questions/31878905/youtube-iframe-api-why-is-onerror-event-being-called-twice
-                if (errorCounter === 0){
-                    alert('Not a valid url');
-                    errorCounter = 1;
-                }
-                else {
-                    errorCounter = 0;
-                }
-                break;
-            case 5:
-                alert('HTML5 player error - try a different browser');
-                break;
-            case 100:
-                alert('Could not find that video');
-                break;
-            case 101:
-                alert('Owner blocked video from playing on 3rd party sites');
-                break;
-            case 150:
-                alert('Owner blocked video from playing on 3rd party sites');
-                break;
-            default:
-                alert('Unkown error playing video');
-                break
-        }
-    }
-
-
-</script>
-
+<!-- Jquery, Ajax popper, and boostrap JS -->
+<!-- For security, "integrity" intentionally breaks if external js dependencies modified -->
+<!-- See for more: https://hacks.mozilla.org/2015/09/subresource-integrity-in-firefox-43/-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
-
 </html>
