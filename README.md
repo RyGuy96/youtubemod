@@ -15,4 +15,4 @@ Thanks to the creators of [this lovely Boostrap landing page template](https://s
 ![Customization Page](/img/SitePreview2.png)
 ![Customization Page With Custom URL Row](/img/SitePreview3.png)
 
-(C) 2020 Ryan Lenea
+&copy; 2020 Ryan Lenea
