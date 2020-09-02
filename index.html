@@ -30,14 +30,11 @@
 <body>
 <a href="player"></a>
 <!--LEFTOFFHERE
-get it to start on pause insted of continous load
-Validate url on main screen when click customize:
-figure out why validation url error pops up twice
-Make icons work for FB link, and add github link to repo (see original boostrap templte)
-Contigency to return standard format if only a couple times
+Make validation and link makeing handling no end time (just default ot video length)
 Add little hints about putting in a URL and times that can close
 Try to get improve resizing a little bit, hopfully make work on mobile
 Clean up code and publish with good readme
+get little thing to pop up saying what does like the youtubetime.com one
 Add min/hour/secs conversion like had in previous version, consider: https://stackoverflow.com/questions/24180204/boƒotstrap-timepicker-plugin-set-full-time-hour-minutes-seconds
 get rid of # in url when click logo (called a fragement and is link to certian part of page)
 <!-- Masthead -->
@@ -45,6 +42,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
     <div class="container">
         <a class="navbar-brand" href="#" id="logo-text">YouTubeMod</a>
     </div>
+    <!--ADd a login for saved videos in future-->
 </nav>
 
 <!-- Masthead -->
@@ -69,6 +67,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
                     <div class="col-12 col-md-3 mb-1">
                         <button type="button" id="showBtn" class="btn btn-block btn-lg btn-primary">Customize</button>
                     </div>
+                    <!--Add see demo link to a video here or prompt if user doesn't input-->
                 </div>
                 <div id="editor-tools" style="display: none">
                     <div class = "form-row">
@@ -76,10 +75,10 @@ get rid of # in url when click logo (called a fragement and is link to certian p
                     </div>
                     <div class="form-row orginal">
                         <div class="col-12 col-md-4 mb-2 mb-md-1">
-                            <input type="text" id="start-0" class="form-control form-control-lg timeInput" placeholder="First Start Time (secs)" min="0">
+                            <input type="text" id="start-0" class="form-control form-control-lg timeInput" placeholder="First Start Time" min="0">
                         </div>
                         <div class="col-12 col-md-4 mb-2 mb-md-1">
-                            <input type="text" id="end-0" class="form-control form-control-lg timeInput" placeholder="First End Time (secs)">
+                            <input type="text" id="end-0" class="form-control form-control-lg timeInput" placeholder="First End Time">
                         </div>
                         <div class="col-12 col-md-1 mb-1">
                             <button type="button" id="addTimes-btn" class="btn btn-block btn-lg btn-primary">+</button>
@@ -109,9 +108,9 @@ get rid of # in url when click logo (called a fragement and is link to certian p
         <div class="row">
             <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
                 <ul class="list-inline mb-2">
-                    <li class="list-inline-item">
-                        <a href="#">About</a>
-                    </li>
+                    <!--<li class="list-inline-item">-->
+                        <!--<a href="#">About</a>-->
+                    <!--</li>-->
                     <!--<li class="list-inline-item">&sdot;</li>-->
                     <!--<li class="list-inline-item">-->
                     <!--<a href="#">Contact</a>-->
@@ -122,18 +121,12 @@ get rid of # in url when click logo (called a fragement and is link to certian p
             <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item mr-3">
-                        <a href="#">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=youtubemod.com" target="_blank">
                             <i class="fab fa-facebook fa-2x fa-fw"></i>
                         </a>
-                    </li>
                     <li class="list-inline-item mr-3">
-                        <a href="#">
-                            <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-instagram fa-2x fa-fw"></i>
+                        <a href="https://github.com/RyGuy96/youtubemod">
+                            <i class="fab fa-github fa-2x fa-fw"></i>
                         </a>
                     </li>
                 </ul>
@@ -268,9 +261,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
     }
 
     // Set slider max val
-    // See: https://stackoverflow.com/questions/15596753/how-do-i-get-video-durations-with-youtube-api-version-3
     function onPlayerReady(event) {
-        // event.target.playVideo();
         let vidLength = player.getDuration();
         document.getElementById("timeSlider").max = vidLength - 2; // Not sure why need -2
     }
@@ -359,16 +350,29 @@ get rid of # in url when click logo (called a fragement and is link to certian p
     }
 
     function constructUrl() {
+
+        let newURl;
+
         if (!timesValid()) {
             alert("Please enter a valid time sequence (currently must be sequential integer values representing seconds)");
             return;
         }
+
         let vidId = $('#url-field').val().split("=")[1];
-        let times = "";
-        $('.timeInput').each(function(index) {
-            times += ($(this).val() + '&');
-        });
-        let newUrl = "youtubemod.com/player?" + vidId + "?" + times + "beta";
+
+        // A legitimate Youtube URL supports a start and stop time
+        if ($('.timeInput').length === 2){
+            let times = $('.timeInput');
+            console.log(times);
+            newUrl = "https://www.youtube.com/embed/" + vidId + "?start=" + times[0].value + "&end=" + times[1].value;
+        } else {
+            let times = "";
+            $('.timeInput').each(function(index) {
+                times += ($(this).val() + '&');
+            });
+            newUrl = "youtubemod.com/player?" + vidId + "?" + times + "beta";
+        }
+
         let outputRow = makeUrlRow();
         let urlSpace = $('#url-space');
         urlSpace.children().remove();
@@ -377,6 +381,7 @@ get rid of # in url when click logo (called a fragement and is link to certian p
         $('#copyOutput-btn').click(function() {
             copyCustomUrl();
         });
+
     }
 
     function onPlayerError(event) {
