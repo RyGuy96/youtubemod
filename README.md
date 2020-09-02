@@ -12,6 +12,7 @@ Thanks to the creators of [this lovely Boostrap landing page template](https://s
 ## Preview
 ![Main Page](/img/SitePreview1.png)
 ![Customization Page](/img/SitePreview2.png)
+![Customization Page With Custom URL Row](/img/SitePreview3.png)
 
 ## Copyright and License
 Copyright 2020 Ryan Lenea
