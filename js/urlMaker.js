@@ -1,10 +1,15 @@
+/**
+ * Functionality for YouTubeMod main page including creating custom url.
+ * @author Ryan Lenea
+ * Copyright 2020 Ryan Lenea
+ */
 
-
-let errorCounter = 0; // Hack to avoid repeat player errors.
+let errorCounter = 0; // Hack to avoid repeat player errors. See onPlayerError() below.
 let counter = 1; // Iterate to keep track of added, removed start/end time rows.
 let prevSelectedInput = $('#start-0'); // Keep track of where slider value to be placed.
 
-loadPage();
+loadPage(); // Initial page load
+
 
 /**
  * Loads the simple initial page where time adjusting functions are hidden.

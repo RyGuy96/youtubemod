@@ -1,28 +1,42 @@
+/**
+ * Parses a custom YouTubeMod Url and plays the video with the skips as indicated.
+ * Note:
+ * @author Ryan Lenea
+ * Copyright 2020 Ryan Lenea
+ */
 
-counter = 0;
+
+counter = 0; // Current time in Video
 let startTimes = []; // Starting seconds
 let timeOuts = []; // Milliseconds of each timeout
-
-parsed = parseCustomURL(window.location.href);
+let parsed = parseCustomURL(window.location.href);
 let id = parsed[0];
 parsed.shift(); // Lose id
 
 startTimes = adjustTimes(parsed)[0];
 timeOuts =  adjustTimes(parsed)[1];
 
-// Loads the IFrame Player API code asynchronously
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+loadPlayer();
 
-// Creates an <iframe> (and YouTube player) after the API downloads
+
+/**
+ * Loads the IFrame Player API code asynchronously.
+ */
+function loadPlayer(){
+    let tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    let firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+
+
+/**
+ * Creates an <iframe> (and YouTube player) after the API downloads.
+ */
 let player;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        // height: window.innerHeight,
-        // width: window.innerWidth,
-        videoId: id, //example id:https://www.youtube.com/watch?v=U03lLvhBzOw
+        videoId: id,
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -30,23 +44,31 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
+
+/**
+ * Makes video iFrame take up the entire browser window.
+ */
 function onPlayerReady() {
     $('iframe').css({"position":"fixed", "top":0, "left":0, "bottom":0, "right":0, "width":"100%", "height":"100%", "border":"none", "margin":0, "padding":0, "overflow":"hidden", "z-index":"999999"})
-
-
 }
 
-// Parse custom Url
+
+/**
+ * Parses a url into the component times and id.
+ */
 function parseCustomURL(customUrl) {
-    customUrl =  document.location.href; //"youtubemod.com/player?mTdSh-em7_M?222&230&864&1102&beta";
-    inputId = [customUrl.split("\?")[1]];
-    body = customUrl.split("\?")[2];
-    times = body.split("\&");
+    customUrl =  document.location.href;
+    let inputId = [customUrl.split("\?")[1]];
+    let body = customUrl.split("\?")[2];
+    let times = body.split("\&");
     times.pop(); // lose "beta" at end
     vidInfo = inputId.concat(times);
     return vidInfo
 }
 
+
+
+//LEFTOFFHERE
 // Account for skips because function gets absolute not relative time
 function adjustTimes(times) {
 
@@ -70,12 +92,12 @@ function goTo(time){
 }
 
 // Reloaded iFrame player to once again trigger onPlayerStateChange()
-function endVideo(){
+function endVideo() {
     player.stopVideo();
     location.reload();
 }
 
-function playWithTimeout () {
+function playWithTimeout() {
     if(timeOuts.length === counter) {
         endVideo();
     }
