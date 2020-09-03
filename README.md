@@ -7,7 +7,7 @@ over content you're not interested in. Natively, YouTube allows just one start a
 
 ## Preview
 
-![Main Page](/img/SitePreview1.png)
+![Demo Gif](/img/YouTubeModDemo.gif)
 ![Customization Page](/img/SitePreview2.png)
 ![Customization Page With Custom URL Row](/img/SitePreview3.png)
 
