@@ -7,14 +7,12 @@
 
 
 counter = 0; // Current time in Video
-let startTimes = []; // Starting seconds
-let timeOuts = []; // Milliseconds of each timeout
 let parsed = parseCustomURL(window.location.href);
 let id = parsed[0];
 parsed.shift(); // Lose id
 
-startTimes = adjustTimes(parsed)[0];
-timeOuts =  adjustTimes(parsed)[1];
+let startTimes = adjustTimes(parsed)[0]; // Starting seconds
+let timeOuts =  adjustTimes(parsed)[1]; // Milliseconds of each timeout
 
 loadPlayer();
 
@@ -67,30 +65,33 @@ function parseCustomURL(customUrl) {
 }
 
 
-
-//LEFTOFFHERE
-// Account for skips because function gets absolute not relative time
+/**
+ * Converts timeouts (the skips between play times) from seconds to milliseconds.
+ */
 function adjustTimes(times) {
-
-    let startTimes = [];
-    let timeOuts = [0];
-    let i;
-    for (i = 0; i < times.length; i++) {
+    let adjStartTimes = [];
+    let adjTimeOuts = [0];
+    for (let i = 0; i < times.length; i++) {
         if (i % 2 !== 0 || i === 1) {
-            timeOuts.push(1000 * (times[i] - times[i - 1]));
+            adjTimeOuts.push(1000 * (times[i] - times[i - 1]));
         } else {
-            startTimes.push(times[i])
+            adjStartTimes.push(times[i])
         }
     }
-    return [startTimes, timeOuts]
+    return [adjStartTimes, adjTimeOuts]
 }
 
+
+/**
+ * Advances video to a particular time.
+ */
 function goTo(time){
     player.seekTo(time, true);
     player.pauseVideo(); // Hack to trigger onPlayerStateChange()
     player.playVideo();
 }
 
+//LEFTOFFHERE
 // Reloaded iFrame player to once again trigger onPlayerStateChange()
 function endVideo() {
     player.stopVideo();
