@@ -1,6 +1,5 @@
 /**
  * Parses a custom YouTubeMod Url and plays the video with the skips as indicated.
- * Note:
  * @author Ryan Lenea
  * Copyright 2020 Ryan Lenea
  */
@@ -91,26 +90,36 @@ function goTo(time){
     player.playVideo();
 }
 
-//LEFTOFFHERE
-// Reloaded iFrame player to once again trigger onPlayerStateChange()
+
+/**
+ * Reloads iFrame player to once again trigger onPlayerStateChange() (Hack).
+ */
 function endVideo() {
     player.stopVideo();
     location.reload();
 }
 
+
+/**
+ * Plays video with jumps added in.
+ */
 function playWithTimeout() {
     if(timeOuts.length === counter) {
         endVideo();
     }
     else {
         setTimeout (function () {
-            goTo (startTimes[counter]);
+            goTo(startTimes[counter]);
             counter++;
             playWithTimeout ();
         }, timeOuts[counter]);
     }
 }
 
+
+/**
+ * Set's new timeout to enable skips.
+ */
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING && counter === 0) {
         setTimeout (function () {
@@ -119,6 +128,8 @@ function onPlayerStateChange(event) {
             playWithTimeout ();
         }, timeOuts[counter]);
     }
+
+
 }
 
 
