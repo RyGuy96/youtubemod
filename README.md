@@ -3,7 +3,7 @@
 ## About
 
 Allows you to create a YouTube URL with multiple start and stop times to skip
-over content you're not interested in. Natively, YouTube allows just one start and one end time. Amounts to the hacky use of the YouTube iframe API behind a borrowed html template to fix a "problem" which will never cross the minds of most people but which I and a select few found horribly frustrating.   
+over content you're not interested in. Natively, YouTube allows just one start and one end time. Amounts to the hacky use of the YouTube iframe API behind a borrowed html template to fix a "problem" which will never cross the minds of most people but which I and a select few found horribly frustrating. For more detail on my process than you could possibly want checkout [this](/README-EXTENDED.md).  
 
 ## Preview
 
