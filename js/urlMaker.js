@@ -162,7 +162,7 @@ function removeHeader() {
 
 /**
  * Sets the time slider's max val to be the length of the loaded video.
- * @param event
+ * @param event {event} Player API event.
  */
 function onPlayerReady(event) {
     let vidLength = player.getDuration();

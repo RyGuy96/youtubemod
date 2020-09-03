@@ -51,7 +51,9 @@ function onPlayerReady() {
 
 
 /**
- * Parses a url into the component times and id.
+ *  Parses a url into the component times and id.
+ * @param customUrl {string} a YouTube Url created by urlPlayer.js
+ * @returns {*[]} a YouTube video id followed by each start and stop time.
  */
 function parseCustomURL(customUrl) {
     customUrl =  document.location.href;
@@ -66,6 +68,8 @@ function parseCustomURL(customUrl) {
 
 /**
  * Converts timeouts (the skips between play times) from seconds to milliseconds.
+ * @param times {*[]} an array of start and end times.
+ * @returns {*[]} an array of adjusted start and end times.
  */
 function adjustTimes(times) {
     let adjStartTimes = [];
@@ -83,6 +87,7 @@ function adjustTimes(times) {
 
 /**
  * Advances video to a particular time.
+ * @param time {integer} a time in seconds.
  */
 function goTo(time){
     player.seekTo(time, true);
@@ -119,6 +124,7 @@ function playWithTimeout() {
 
 /**
  * Set's new timeout to enable skips.
+ * @param event {event} Player API event.
  */
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING && counter === 0) {
