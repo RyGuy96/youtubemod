@@ -9,7 +9,6 @@ counter = 0; // Current time in Video
 let parsed = parseCustomURL(window.location.href);
 let id = parsed[0];
 parsed.shift(); // Lose id
-
 let startTimes = adjustTimes(parsed)[0]; // Starting seconds
 let timeOuts =  adjustTimes(parsed)[1]; // Milliseconds of each timeout
 
