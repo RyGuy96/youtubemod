@@ -13,7 +13,7 @@ over content you're not interested in. Natively, YouTube allows just one start a
 
 ## Background
 
-This project was inspired by the New York Times Article [How to Link to the Good Part of the YouTube Video](https://www.nytimes.com/2016/12/07/technology/personaltech/how-to-link-to-the-good-part-of-the-youtube-video.html). There are sites like [http://youtubetime.com/](http://youtubetime.com/) which appends the start and optional end time to the end of the normal url in the correct format.
+This project was inspired by the New York Times Article [How to Link to the Good Part of the YouTube Video](https://www.nytimes.com/2016/12/07/technology/personaltech/how-to-link-to-the-good-part-of-the-youtube-video.html). There are sites like [youtubetime.com](http://youtubetime.com/) which appends the start and optional end time to the end of the normal url in the correct format.
 
 However, you cannot natively (or through any service I was able to find at the start of this project) have *multiple* start and stop times (e.g. start at minute 1, stop at minute 3, pick-up again at minute 4, and end at minute 7).
 
